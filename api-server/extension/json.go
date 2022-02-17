@@ -1,4 +1,4 @@
-package extension 
+package extension
 
 import (
 	"encoding/json"
@@ -10,12 +10,11 @@ import (
 	"rtuumsfsmga-server/utils"
 )
 
-
 func ReadJSONData(filepath string) []*reddit.DataPost {
 	file, err := os.ReadFile(filepath)
-  utils.CheckError(err)
+	utils.CheckError(err)
 
-  var read []*reddit.DataPost
+	var read []*reddit.DataPost
 	json.Unmarshal(file, &read)
 
 	return read
@@ -27,12 +26,12 @@ func WriteJSONFile(filename string, v interface{}) {
 	if filepath.Dir(filename) != "." {
 		if _, err := os.Stat(filepath.Dir(filename)); os.IsNotExist(err) {
 			err := os.Mkdir(filepath.Dir(filename), 0777)
-		  utils.CheckError(err)	
+			utils.CheckError(err)
 		}
 	}
 
 	err := ioutil.WriteFile(filename, file, 0644)
-  utils.CheckError(err)	
+	utils.CheckError(err)
 }
 
 func SendJSONResponse(w http.ResponseWriter, i interface{}) {

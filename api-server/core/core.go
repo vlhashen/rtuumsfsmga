@@ -10,21 +10,21 @@ import (
 )
 
 func ConvertData(as *tools.AppSession, submission bool) []*reddit.DataPost {
-	
-  var ( 
-    source_slice []string
-	  source_chunks [][]string
-	  info_prefix string
-	  source_file *os.File
-	  err error 
-    keep_link = false
-  )
-	
+
+	var (
+		source_slice  []string
+		source_chunks [][]string
+		info_prefix   string
+		source_file   *os.File
+		err           error
+		keep_link     = false
+	)
+
 	if submission {
 
 		source_file, err = os.Open(as.SourcePostPath)
-	  utils.CheckError(err)	
-    
+		utils.CheckError(err)
+
 		info_prefix = `t3_`
 
 	} else {
@@ -37,14 +37,14 @@ func ConvertData(as *tools.AppSession, submission bool) []*reddit.DataPost {
 
 	}
 
-  defer source_file.Close()
+	defer source_file.Close()
 	reader := csv.NewReader(source_file)
 	read_csv, _ := reader.ReadAll()
-  
+
 	for _, v := range read_csv[1:] {
 		source_slice = append(source_slice, info_prefix+v[0])
 	}
-  
+
 	source_chunks = extension.DivideSlice(source_slice)
 
 	var converted []*reddit.DataPost
@@ -71,17 +71,17 @@ func ConvertData(as *tools.AppSession, submission bool) []*reddit.DataPost {
 
 }
 
-func DeleteDataFromFile (comparison_sets map[string]struct{}, filename string) {
-  
-  var substracted_slice []*reddit.DataPost
-  read := extension.ReadJSONData(filename)
-    
-  for _, v := range read {
-    if _, ok := comparison_sets[v.Fullname]; !ok {
-      substracted_slice = append(substracted_slice, v)
-    }
-  }
+func DeleteDataFromFile(comparison_sets map[string]struct{}, filename string) {
 
-  extension.WriteJSONFile(filename, substracted_slice)
+	var substracted_slice []*reddit.DataPost
+	read := extension.ReadJSONData(filename)
+
+	for _, v := range read {
+		if _, ok := comparison_sets[v.Fullname]; !ok {
+			substracted_slice = append(substracted_slice, v)
+		}
+	}
+
+	extension.WriteJSONFile(filename, substracted_slice)
 
 }

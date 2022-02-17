@@ -31,22 +31,26 @@ type DataPost struct {
 	Link_Id     string  `json:"link_id,omitempty"`
 }
 
-func (res *Response) ParseData(keep_link bool) []*DataPost{
+func (res *Response) ParseData(keep_link bool) []*DataPost {
 
-  var data []*DataPost
+	var data []*DataPost
 	col := res.Data.Children
-  for _, v := range col {
+	for _, v := range col {
 		dp := v.DataPost
 		dp.Permalink = "https://www.reddit.com" + dp.Permalink
 		if len(dp.Selftext) == 0 && len(dp.Body) > 0 {
-      dp.Selftext = dp.Body
-      dp.Body = ""
-    }
-    if len(dp.Selftext) >= 500 { dp.Selftext = dp.Selftext[:500] }
+			dp.Selftext = dp.Body
+			dp.Body = ""
+		}
+		if len(dp.Selftext) >= 500 {
+			dp.Selftext = dp.Selftext[:500]
+		}
 		if len(dp.Title) == 0 {
 			dp.Title = dp.Link_Title
 			dp.Link_Title = ""
-			if !keep_link { dp.Link_Id = "" }
+			if !keep_link {
+				dp.Link_Id = ""
+			}
 		}
 		data = append(data, &dp)
 	}
