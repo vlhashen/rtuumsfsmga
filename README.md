@@ -10,4 +10,4 @@
 4. Login ke reddit
 5. ??
 
-Lengkapnya ada di [wiki](https://github.com/vlhashen/rtuumsfsmga/wiki)
+Untuk cara mengambil data yang disimpan secara lengkap ada di [wiki](https://github.com/vlhashen/rtuumsfsmga/wiki)
